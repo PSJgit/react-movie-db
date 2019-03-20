@@ -1,0 +1,34 @@
+
+/* Mixin include for responsive font sizing
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+html, body, button {
+  @include fluid-type($small, $xLarge, $baseFontSize_min, $baseFontSize_max);
+}
+
+
+/* General font styling
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+h1, h2, h3, h4, h5, h6, legend, .heading {
+  font-family: $fontFamily_secondary;
+  color: $offBlack;
+  text-transform: uppercase;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0.5em 0;
+}
+
+h1 {
+  @include fluid-type($small, $xLarge, $h1_min, $h1_max);
+}
+
+p, label, .error {
+  color: $offBlack;
+  font-family: $fontFamily_secondary;
+  line-height: 1.4;
+}
+
+p.center {
+  text-align: center;
+}

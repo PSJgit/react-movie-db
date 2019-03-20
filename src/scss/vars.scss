@@ -1,0 +1,88 @@
+
+/* Font Declarations
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+@font-face {
+  font-family: 'open_sansregular';
+  src: url('../fonts/opensans-regular-webfont.woff2') format('woff2'),
+       url('../fonts/opensans-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+    font-family: 'work_sansblack';
+    src: url('../fonts/worksans-black-webfont.woff2') format('woff2'),
+         url('../fonts/worksans-black-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* Font sizing, Font family
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+$fontFamily_primary : 'open_sansregular', 'arial';
+$fontFamily_secondary : 'open_sansregular', 'arial';
+$arialFont : 'arial';
+
+$XL_min: 24px;
+$XL_max: 128px;
+
+$h1_min: 22px;
+$h1_max: 48px;
+
+$h2_min: 18px;
+$h2_max: 40px;
+
+$h3_min: 16px;
+$h3_max: 32px;
+
+$baseFontSize_min: 16px;    // set on html, body, button
+$baseFontSize_max: 20px;    // set on html, body, button
+
+
+/* Colors
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+$bodyColor_primary: #323446;    // Dark Purple
+$bodyColor_secondary: #A9D2D5;  // Pastel Blue
+$bodyColor_tertiary: #A3A5C3;   // Dark blue
+
+$highlight: #BDFDE9;            // light teal
+
+$fontColor_primary: #303030;    // Off Black
+$fontColor_secondary: #FDFDFD;  // Off White
+$fontColor_tertiary: #000500;   // Near pure Black
+
+$offWhite: #fdfdfd;             
+$offBlack: #303030;
+
+$fail: #FF2737;                 // red
+$pass: green;                   // green
+
+
+/* Margins/Padding
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+$xs-margin: 0.2em;
+$xs-padding: $xs-margin;
+
+$sm-margin: 0.5em;
+$sm-padding: $sm-margin;
+
+$med-margin: 1em;
+$med-padding: $med-margin;
+
+$xl-margin: 5em;
+$xl-padding: $xl-margin;
+
+
+/* Responsive basics
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+$small: 480px;
+$medium: 839px;
+$large: 1024px;
+$xLarge: 1280px;
+

@@ -1,0 +1,29 @@
+
+/* General styling
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+body {
+  background: $bodyColor_primary;
+}
+
+/* Layout
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+#root {
+  padding: 0 $sm-padding;
+  width: 100%;
+  max-width: 1280px;
+  margin: $xl-margin auto;
+}
+
+// svg
+
+.svg-med {
+	height: 3em;
+	width: 3em;
+}
+
+h1, p, svg {
+	color: $offWhite;
+	fill: $offWhite;
+}
