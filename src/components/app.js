@@ -5,6 +5,9 @@ import tempData from '../data/tempData.js'
 import fetchApiData, {apiConfig} from '../js/apiRequests.js'
 import GetSVG, { EmailSVG } from './svgs.js'
 
+import Section from './section.js'
+import FilmPoster from './filmPoster.js'
+
 
 /* Plan
 
@@ -77,7 +80,7 @@ export default class App extends React.Component {
     // show if we're loading data, or failed to load data
     const { loading, error } = this.state
     const resultsArr = []
-    const componentArr = []
+    const filmComponentArr = []
 
     if (error) { 
       return <p>{error.message}</p> 
@@ -93,18 +96,30 @@ export default class App extends React.Component {
 
       for (var i = 0; i < results.length; i++) {
         resultsArr.push((results[i]))
-        componentArr.push(<Test key={i} film={results[i].title} poster={`${baseURL}${imgSize}${results[i].poster_path}`}/>)
+        console.log(results[i].popularity)
+        filmComponentArr.push(
+          <FilmPoster 
+            key={i} 
+            id={`film-${i}`}
+            film={results[i].title} 
+            poster={`${baseURL}${imgSize}${results[i].poster_path}`}
+            fullReleaseDate={results[i].release_date}
+          />
+        )
       }
     } 
 
-    console.log( resultsArr)
+
     return (
       <Fragment>
 
         <h1>Basic react/ router/ babel/ webpack</h1>
-        <NavLink to="/temp" activeClassName="is-active" exact={true}>temp</NavLink>
-        <GetSVG tag='EmailSVG' className='svg-med'/>   
-        {componentArr}
+        <NavLink to='/temp' exact={true}>temp</NavLink>
+        <GetSVG tag='EmailSVG' className='svg-med'/>  
+        <Section title='Popular Movies' className='movies-list'>
+          {filmComponentArr}
+        </Section> 
+        
       </Fragment>
     )
 
@@ -112,12 +127,3 @@ export default class App extends React.Component {
 }
 
 
-const Test = (props) => {
-  console.log(props)
-  return (
-    <Fragment>
-      <p>{props.film}</p>
-      <img src={props.poster}/>
-    </Fragment>
-  )
-}
