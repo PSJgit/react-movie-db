@@ -88,9 +88,12 @@ export default class App extends React.Component {
     else {
       // if no error and load is finished, push data to components
       const results = this.state.pageData.results
+      const baseURL = this.state.pageConfig.images.secure_base_url
+      const imgSize = this.state.pageConfig.images.poster_sizes[0]
+
       for (var i = 0; i < results.length; i++) {
         resultsArr.push((results[i]))
-        componentArr.push(<Test key={i} film={results[i].title}/>)
+        componentArr.push(<Test key={i} film={results[i].title} poster={`${baseURL}${imgSize}${results[i].poster_path}`}/>)
       }
     } 
 
@@ -112,6 +115,9 @@ export default class App extends React.Component {
 const Test = (props) => {
   console.log(props)
   return (
-    <p>{props.film}</p>
+    <Fragment>
+      <p>{props.film}</p>
+      <img src={props.poster}/>
+    </Fragment>
   )
 }
