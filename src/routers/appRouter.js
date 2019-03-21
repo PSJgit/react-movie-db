@@ -2,12 +2,14 @@ import React, { Fragment } from 'react'
 import { BrowserRouter, Route, Switch, Link, NavLink} from 'react-router-dom'
 import App from '../components/app'
 import CheckBrowser from '../components/checkBrowser.js'
-import Header from '../components/header'
 import Route404 from '../components/route404'
 
 const Temp = () => {
   return (
-    <div>this is a temp route</div>
+    <div>
+      this is a temp route
+      <Link to="/">Go home</Link>
+    </div>
   )
 }
 
@@ -31,7 +33,7 @@ const AppRouter = (props) => {
 export default AppRouter;
 
 
-/*
+/* passing props
 <Route
   path='/dashboard'
   render={(props) => <Dashboard {...props} isAuthed={true} />}

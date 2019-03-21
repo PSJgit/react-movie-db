@@ -21,7 +21,6 @@ const ascDesc = [
 ]
 let page = 1
 
-
 try {
 	// example api call
 	config = `https://api.themoviedb.org/3/configuration?api_key=${appConfig.KEY}`

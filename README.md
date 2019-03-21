@@ -19,6 +19,7 @@ Boilerplate for react projects
 
 * Javascript
 * React
+* React Router
 * Babel
 * SCSS
 * Webpack
