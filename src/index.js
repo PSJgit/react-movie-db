@@ -2,7 +2,9 @@ import "@babel/polyfill"
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Bowser from 'bowser'
-import App from './app';
+import getRandomWord from './js/apiRequests.js'
+import AppRouter from './routers/appRouter';
+
 import './scss/index.scss';
 
 
@@ -30,6 +32,6 @@ const isValidBrowser = browser.satisfies({
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 ReactDOM.render(
-	<App isSupported={isValidBrowser}/>, 
+	<AppRouter isSupported={isValidBrowser}/>, 
 	document.getElementById('root')
 );

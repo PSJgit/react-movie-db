@@ -64,5 +64,9 @@ module.exports = {
     }),
     new WebpackMd5Hash()
   ],
-    devtool: 'source-map'
+    devtool: 'source-map',
+    devServer: {
+      contentBase: path.join(__dirname, 'public'),
+      historyApiFallback: true
+    }
 };

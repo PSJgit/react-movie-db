@@ -12,7 +12,7 @@ html, body, button {
 
 h1, h2, h3, h4, h5, h6, legend, .heading {
   font-family: $fontFamily_secondary;
-  color: $offBlack;
+  color: $offWhite;
   text-transform: uppercase;
   font-weight: bold;
   line-height: 1;
@@ -23,8 +23,8 @@ h1 {
   @include fluid-type($small, $xLarge, $h1_min, $h1_max);
 }
 
-p, label, .error {
-  color: $offBlack;
+p, label, a {
+  color: $offWhite;
   font-family: $fontFamily_secondary;
   line-height: 1.4;
 }
