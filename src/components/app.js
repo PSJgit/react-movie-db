@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react'
 import { NavLink } from 'react-router-dom'
 import uuid from 'uuid' // usage = uuid.v4()
 import tempData from '../data/tempData.js'
-
+import fetchApiData, {apiConfig} from '../js/apiRequests.js'
 import GetSVG, { EmailSVG } from './svgs.js'
 
 
@@ -17,13 +17,9 @@ dashboard = {
   component = search 
   component = (displayed in grid) film poster, title, release date + user score
             on click = route change, load in detail component
-
             detail component = film poster, film backer, title, release year, user score, run time 
                               on click, can revert route back to dash
-}
-
-*/
-
+}*/
 
 
 /* MAIN APP
@@ -39,7 +35,10 @@ export default class App extends React.Component {
   
   initialState() {
     return {
-      tempData: tempData
+      pageConfig: [],
+      pageData: [],
+      loading: true,
+      error: null
     }
   }
 
@@ -51,6 +50,13 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+    const configObjs = apiConfig()
+    fetchApiData(configObjs.config).then(data => this.setState({ pageConfig: data }))
+    fetchApiData(configObjs.data)
+      .then(data => this.setState({ pageData: data, loading: false }))
+      .catch(error => this.setState({ error, isLoading: false }))
+
+
     console.log('----------- component mounted', this.state)
   }
 
@@ -68,7 +74,18 @@ export default class App extends React.Component {
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
   render() {
-   
+    const { loading, error } = this.state;
+
+    if (error) {
+      return (
+        <p>{error.message}</p>
+      )
+    } 
+
+    if (loading) {
+      return <p>temp loading msg</p>
+    } 
+
     return (
       <Fragment>
         <h1>Basic react/ router/ babel/ webpack</h1>
@@ -76,5 +93,6 @@ export default class App extends React.Component {
         <GetSVG tag='EmailSVG' className='svg-med'/>   
       </Fragment>
     )
+
   }
 }

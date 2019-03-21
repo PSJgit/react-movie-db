@@ -13,16 +13,13 @@ import './scss/index.scss';
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isValidBrowser = browser.satisfies({ 
-
   macos: {
     safari: ">=10.3"
   },
-
   mobile: {
     safari: '>=10.3',
     'android browser': '>=67'
   },
-
 	chrome: ">=57",
   firefox: ">=52"
 })
