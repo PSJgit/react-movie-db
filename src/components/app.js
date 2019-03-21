@@ -74,25 +74,44 @@ export default class App extends React.Component {
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
   render() {
-    const { loading, error } = this.state;
+    // show if we're loading data, or failed to load data
+    const { loading, error } = this.state
+    const resultsArr = []
+    const componentArr = []
 
-    if (error) {
-      return (
-        <p>{error.message}</p>
-      )
+    if (error) { 
+      return <p>{error.message}</p> 
+    } 
+    else if (loading) { 
+      return <p>temp loading msg</p> 
+    }
+    else {
+      // if no error and load is finished, push data to components
+      const results = this.state.pageData.results
+      for (var i = 0; i < results.length; i++) {
+        resultsArr.push((results[i]))
+        componentArr.push(<Test key={i} film={results[i].title}/>)
+      }
     } 
 
-    if (loading) {
-      return <p>temp loading msg</p>
-    } 
-
+    console.log( resultsArr)
     return (
       <Fragment>
+
         <h1>Basic react/ router/ babel/ webpack</h1>
         <NavLink to="/temp" activeClassName="is-active" exact={true}>temp</NavLink>
         <GetSVG tag='EmailSVG' className='svg-med'/>   
+        {componentArr}
       </Fragment>
     )
 
   }
+}
+
+
+const Test = (props) => {
+  console.log(props)
+  return (
+    <p>{props.film}</p>
+  )
 }
