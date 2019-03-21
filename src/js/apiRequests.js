@@ -25,6 +25,7 @@ let page = 1
 
 export const apiConfig = () => {
 	try {
+		//details = `https://api.themoviedb.org/3/movie/${id}?api_key=${appConfig.KEY}&language=en-US`
 		config = `https://api.themoviedb.org/3/configuration?api_key=${appConfig.KEY}`
 		data = `https://api.themoviedb.org/3/discover/movie?api_key=${appConfig.KEY}&language=en-US&sort_by=${sortBy[0]}.${ascDesc[1]}&include_adult=false&include_video=false&page=${page}`
 	} catch(err) {
@@ -38,11 +39,12 @@ export const apiConfig = () => {
 }
 
 
-const fetchApiData = async (type) => {
-	
-	if (type) {
-		const response = await fetch(type)
+const fetchApiData = async (request) => {
+
+	if (request) {
+		const response = await fetch(request)
 		if (response.status === 200) {
+			console.warn('request made')
 			const data = await response.json()
 			return data
 		}

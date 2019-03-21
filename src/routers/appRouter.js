@@ -4,29 +4,17 @@ import App from '../components/app'
 import CheckBrowser from '../components/checkBrowser.js'
 import Route404 from '../components/route404'
 
-const Temp = () => {
-  return (
-    <div>
-      this is a temp route
-      <Link to="/">Go home</Link>
-    </div>
-  )
-}
-
-
 const AppRouter = (props) => {
-
   return (
-  <BrowserRouter>
-    <Fragment>
-      <CheckBrowser isSupported={props.isSupported}/>
-      <Switch>
-        <Route path='/' component={App} exact={true} />
-        <Route path='/temp' component={Temp} />
-        <Route component={Route404} />
-      </Switch>
-    </Fragment>
-  </BrowserRouter>
+    <BrowserRouter>
+      <Fragment>
+        <CheckBrowser isSupported={props.isSupported}/>
+        <Switch>
+          <Route path='/' component={App} exact={true} />
+          <Route component={Route404} />
+        </Switch>
+      </Fragment>
+    </BrowserRouter>
   )
 }
 

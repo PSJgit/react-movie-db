@@ -32,8 +32,10 @@ export default class App extends React.Component {
 
   constructor(props){
     super(props)
-    this.state = this.initialState()
+    console.log(localStorage.length)
 
+
+    this.state = this.initialState()
   }
   
   initialState() {
@@ -50,15 +52,81 @@ export default class App extends React.Component {
     this.setState({
       ...state
     })
+    localStorage.setItem(...state)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      "beforeunload",
+      this.saveStateToLocalStorage.bind(this)
+    );
+
+    // saves if component has a chance to unmount
+    this.saveStateToLocalStorage();
+  }
+
+  loadStateFromLocalStorage() {
+    // for all items in state
+    for (let key in this.state) {
+      // if the key exists in localStorage
+      if (localStorage.hasOwnProperty(key)) {
+        // get the key's value from localStorage
+        let value = localStorage.getItem(key);
+
+        // parse the localStorage string and setState
+        try {
+          value = JSON.parse(value);
+          this.setState({ [key]: value });
+        } catch (e) {
+          // handle empty string
+          this.setState({ [key]: value });
+        }
+        console.log('local storage loaded into state', this.state)
+      }
+    }
+  }
+
+  saveStateToLocalStorage() {
+    // for every item in React state
+    for (let key in this.state) {
+      // save to localStorage
+      localStorage.setItem(key, JSON.stringify(this.state[key]));
+    }
   }
 
   componentDidMount() {
-    const configObjs = apiConfig()
-    fetchApiData(configObjs.config).then(data => this.setState({ pageConfig: data }))
-    fetchApiData(configObjs.data)
-      .then(data => this.setState({ pageData: data, loading: false }))
-      .catch(error => this.setState({ error, isLoading: false }))
+    
+    if (localStorage.length === 0) {
+      // add event listener to save state to localStorage - when user leaves/refreshes the page
+      window.addEventListener('beforeunload', this.saveStateToLocalStorage.bind(this))
+      const configObjs = apiConfig()
+      fetchApiData(configObjs.config).then(data => this.setState({ pageConfig: data }))
+      fetchApiData(configObjs.data).then((data) => {
 
+        let dataResultsArr = []
+        data.results.map( (elem, index) => {
+
+          dataResultsArr.push({
+            id: elem.id,
+            title: elem.title, 
+            vote_average: elem.vote_average,
+            poster_path: elem.poster_path,
+            backdrop_path: elem.backdrop_path, 
+            release_date: elem.release_date,
+            overview: elem.overview
+          })
+        })
+        this.setState({ 
+          pageData: dataResultsArr,
+          loading: false 
+        })
+      })
+      .catch(error => this.setState({ error, isLoading: false }))
+    } else {
+      this.loadStateFromLocalStorage()
+    }
+    
+    
 
     console.log('----------- component mounted', this.state)
   }
@@ -79,7 +147,7 @@ export default class App extends React.Component {
   render() {
     // show if we're loading data, or failed to load data
     const { loading, error } = this.state
-    const resultsArr = []
+
     const filmComponentArr = []
 
     if (error) { 
@@ -90,21 +158,23 @@ export default class App extends React.Component {
     }
     else {
       // if no error and load is finished, push data to components
-      const results = this.state.pageData.results
+      const pageData = this.state.pageData
       const baseURL = this.state.pageConfig.images.secure_base_url
       const imgSize = this.state.pageConfig.images.poster_sizes[0]
 
-      for (var i = 0; i < results.length; i++) {
-        resultsArr.push((results[i]))
-        console.log(results[i].popularity)
+      for (var i = 0; i < pageData.length; i++) {
+
         filmComponentArr.push(
-          <FilmPoster 
-            key={i} 
-            id={`film-${i}`}
-            film={results[i].title} 
-            poster={`${baseURL}${imgSize}${results[i].poster_path}`}
-            fullReleaseDate={results[i].release_date}
-          />
+          <NavLink key={i} to='/temp' exact={true}>
+            <FilmPoster 
+              key={uuid.v4()} 
+              id={`film-${i}`}
+              film={pageData[i].title} 
+              poster={`${baseURL}${imgSize}${pageData[i].poster_path}`}
+              fullReleaseDate={pageData[i].release_date}
+              score={pageData[i].vote_average}
+            />
+          </NavLink>
         )
       }
     } 
