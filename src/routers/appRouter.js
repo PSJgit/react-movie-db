@@ -1,8 +1,11 @@
 import React, { Fragment } from 'react'
 import { BrowserRouter, Route, Switch, Link, NavLink} from 'react-router-dom'
-import App from '../components/app'
+
 import CheckBrowser from '../components/checkBrowser.js'
-import Route404 from '../components/route404'
+import App from '../components/app.js'
+import Route404 from '../components/route404.js'
+import FilmDetail from '../components/filmDetail.js'
+
 
 const AppRouter = (props) => {
   return (
@@ -11,6 +14,12 @@ const AppRouter = (props) => {
         <CheckBrowser isSupported={props.isSupported}/>
         <Switch>
           <Route path='/' component={App} exact={true} />
+          
+          <Route
+            path='/filmDetail:id'
+            render={(props) => <FilmDetail {...props} data={localStorage.getItem('pageData')} />}
+          />
+
           <Route component={Route404} />
         </Switch>
       </Fragment>

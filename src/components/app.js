@@ -7,7 +7,7 @@ import GetSVG, { EmailSVG } from './svgs.js'
 
 import Section from './section.js'
 import FilmPoster from './filmPoster.js'
-
+import FilmDetail from '../components/filmDetail.js'
 
 /* Plan
 
@@ -32,9 +32,6 @@ export default class App extends React.Component {
 
   constructor(props){
     super(props)
-    console.log(localStorage.length)
-
-
     this.state = this.initialState()
   }
   
@@ -72,7 +69,6 @@ export default class App extends React.Component {
       if (localStorage.hasOwnProperty(key)) {
         // get the key's value from localStorage
         let value = localStorage.getItem(key);
-
         // parse the localStorage string and setState
         try {
           value = JSON.parse(value);
@@ -81,9 +77,9 @@ export default class App extends React.Component {
           // handle empty string
           this.setState({ [key]: value });
         }
-        console.log('local storage loaded into state', this.state)
       }
     }
+    console.log('local storage loaded into state', this.state)
   }
 
   saveStateToLocalStorage() {
@@ -99,13 +95,15 @@ export default class App extends React.Component {
     if (localStorage.length === 0) {
       // add event listener to save state to localStorage - when user leaves/refreshes the page
       window.addEventListener('beforeunload', this.saveStateToLocalStorage.bind(this))
+
+      // api config and calls
       const configObjs = apiConfig()
       fetchApiData(configObjs.config).then(data => this.setState({ pageConfig: data }))
       fetchApiData(configObjs.data).then((data) => {
 
+        // trim the data to what we need
         let dataResultsArr = []
         data.results.map( (elem, index) => {
-
           dataResultsArr.push({
             id: elem.id,
             title: elem.title, 
@@ -126,8 +124,6 @@ export default class App extends React.Component {
       this.loadStateFromLocalStorage()
     }
     
-    
-
     console.log('----------- component mounted', this.state)
   }
 
@@ -135,28 +131,20 @@ export default class App extends React.Component {
     console.log('----------- component updated', this.state)
   }
 
-
-  /* Click Events
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-  
-
   /* Render
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
   render() {
     // show if we're loading data, or failed to load data
     const { loading, error } = this.state
-
     const filmComponentArr = []
-
+    const filmDetailComponentArr = []
+    
     if (error) { 
       return <p>{error.message}</p> 
-    } 
-    else if (loading) { 
+    } else if (loading) { 
       return <p>temp loading msg</p> 
-    }
-    else {
+    } else {
       // if no error and load is finished, push data to components
       const pageData = this.state.pageData
       const baseURL = this.state.pageConfig.images.secure_base_url
@@ -164,8 +152,9 @@ export default class App extends React.Component {
 
       for (var i = 0; i < pageData.length; i++) {
 
+        let linkId = pageData[i].id
         filmComponentArr.push(
-          <NavLink key={i} to='/temp' exact={true}>
+          <NavLink key={i} to={`/filmDetail:${linkId}`} exact={true}>
             <FilmPoster 
               key={uuid.v4()} 
               id={`film-${i}`}
@@ -176,15 +165,15 @@ export default class App extends React.Component {
             />
           </NavLink>
         )
+
+        
       }
     } 
-
 
     return (
       <Fragment>
 
         <h1>Basic react/ router/ babel/ webpack</h1>
-        <NavLink to='/temp' exact={true}>temp</NavLink>
         <GetSVG tag='EmailSVG' className='svg-med'/>  
         <Section title='Popular Movies' className='movies-list'>
           {filmComponentArr}
@@ -195,5 +184,6 @@ export default class App extends React.Component {
 
   }
 }
+
 
 
