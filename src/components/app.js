@@ -9,21 +9,6 @@ import Section from './section.js'
 import FilmPoster from './filmPoster.js'
 import FilmDetail from '../components/filmDetail.js'
 
-/* Plan
-
-router will handle browser history - so parent components for each view 
-
-initial component - dashbaord
-dashboard = {
-  
-  component = container
-  component = search 
-  component = (displayed in grid) film poster, title, release date + user score
-            on click = route change, load in detail component
-            detail component = film poster, film backer, title, release year, user score, run time 
-                              on click, can revert route back to dash
-}*/
-
 
 /* MAIN APP
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -49,79 +34,73 @@ export default class App extends React.Component {
     this.setState({
       ...state
     })
-    localStorage.setItem(...state)
+    sessionStorage.setItem(...state)
   }
 
   componentWillUnmount() {
-    window.removeEventListener(
-      "beforeunload",
-      this.saveStateToLocalStorage.bind(this)
-    );
-
-    // saves if component has a chance to unmount
-    this.saveStateToLocalStorage();
+    this.saveStateToSessionStorage()
   }
 
-  loadStateFromLocalStorage() {
-    // for all items in state
+  loadStateFromSessionStorage() {
     for (let key in this.state) {
-      // if the key exists in localStorage
-      if (localStorage.hasOwnProperty(key)) {
-        // get the key's value from localStorage
-        let value = localStorage.getItem(key);
-        // parse the localStorage string and setState
+      if (sessionStorage.hasOwnProperty(key)) {
+        let value = sessionStorage.getItem(key)
         try {
-          value = JSON.parse(value);
-          this.setState({ [key]: value });
+          value = JSON.parse(value)
+          this.setState({ [key]: value })
         } catch (e) {
           // handle empty string
-          this.setState({ [key]: value });
+          this.setState({ [key]: value })
         }
       }
     }
-    console.log('local storage loaded into state', this.state)
+    console.log('local session loaded into state', this.state)
   }
 
-  saveStateToLocalStorage() {
-    // for every item in React state
+  saveStateToSessionStorage() {
+    console.log('saving to session storage...')
     for (let key in this.state) {
-      // save to localStorage
-      localStorage.setItem(key, JSON.stringify(this.state[key]));
+      sessionStorage.setItem(key, JSON.stringify(this.state[key]))
     }
+
   }
 
   componentDidMount() {
     
-    if (localStorage.length === 0) {
-      // add event listener to save state to localStorage - when user leaves/refreshes the page
-      window.addEventListener('beforeunload', this.saveStateToLocalStorage.bind(this))
+    let dataResultsArr = []
+    if (sessionStorage.length === 0) {
 
-      // api config and calls
-      const configObjs = apiConfig()
-      fetchApiData(configObjs.config).then(data => this.setState({ pageConfig: data }))
-      fetchApiData(configObjs.data).then((data) => {
+      for (let i = 0; i < 4; i++) {
+        // api config and calls
+        const configObjs = apiConfig(i+1)
+        fetchApiData(configObjs.config).then(data => this.setState({ pageConfig: data }))
+        fetchApiData(configObjs.data).then((data) => {
 
-        // trim the data to what we need
-        let dataResultsArr = []
-        data.results.map( (elem, index) => {
-          dataResultsArr.push({
-            id: elem.id,
-            title: elem.title, 
-            vote_average: elem.vote_average,
-            poster_path: elem.poster_path,
-            backdrop_path: elem.backdrop_path, 
-            release_date: elem.release_date,
-            overview: elem.overview
+          // trim the data to what we need
+          data.results.map( (elem, index) => {
+            dataResultsArr.push({
+              id: elem.id,
+              title: elem.title, 
+              vote_average: elem.vote_average,
+              poster_path: elem.poster_path,
+              backdrop_path: elem.backdrop_path, 
+              release_date: elem.release_date,
+              overview: elem.overview
+            })
           })
+          this.setState({ 
+            pageData: dataResultsArr,
+            loading: false 
+          })
+          this.saveStateToSessionStorage()
+          console.log('saved sessionStorage', sessionStorage)
         })
-        this.setState({ 
-          pageData: dataResultsArr,
-          loading: false 
-        })
-      })
-      .catch(error => this.setState({ error, isLoading: false }))
+        .catch(error => this.setState({ error, isLoading: false }))
+      }
+      
+
     } else {
-      this.loadStateFromLocalStorage()
+      this.loadStateFromSessionStorage()
     }
     
     console.log('----------- component mounted', this.state)
@@ -148,7 +127,7 @@ export default class App extends React.Component {
       // if no error and load is finished, push data to components
       const pageData = this.state.pageData
       const baseURL = this.state.pageConfig.images.secure_base_url
-      const imgSize = this.state.pageConfig.images.poster_sizes[0]
+      const imgSize = this.state.pageConfig.images.poster_sizes[2]
 
       for (var i = 0; i < pageData.length; i++) {
 
@@ -165,17 +144,13 @@ export default class App extends React.Component {
             />
           </NavLink>
         )
-
-        
       }
     } 
 
     return (
       <Fragment>
 
-        <h1>Basic react/ router/ babel/ webpack</h1>
-        <GetSVG tag='EmailSVG' className='svg-med'/>  
-        <Section title='Popular Movies' className='movies-list'>
+        <Section title='Popular Movies' className='movies-list grid'>
           {filmComponentArr}
         </Section> 
         

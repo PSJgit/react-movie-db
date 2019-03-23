@@ -14,24 +14,32 @@ const FilmDetail = (props) => {
 
   */
 
-  const [status, updateStatus] = useState({loaded:false, error: null})
-
+  const [status, updateStatus] = useState({data: {}, loading: true, error: null})
 
   useEffect(() => {
 
     console.log('detail component mounted')
 
-    if (status.loaded === false) {
+    if (status.loading === true) {
 
-        const arr = JSON.parse(props.data)
+        // we only need one thing from the detail api call, so trim down the data
+        let dataResultsObj = {}
+        const dataFromProps = JSON.parse(props.data)
         const idFromProps = parseInt(props.match.params.id.slice(1))
-        const matchedId = arr.filter( value => value.id === idFromProps)
+        const matchedId = dataFromProps.filter( value => value.id === idFromProps)
 
         fetchApiData(`https://api.themoviedb.org/3/movie/${idFromProps}?api_key=${appConfig.KEY}&language=en-US`)
-          .then(data => console.log(data))
-          .then(data => updateStatus({...status, loaded:true}))
-          .catch(error => updateStatus({...status, error: error}))
 
+          .then((data) => {
+            for (let key in data) { 
+              if (key === 'runtime'){
+                dataResultsObj[key] = data[key]
+                break
+              }
+            }
+            updateStatus({...status, data: dataResultsObj, loading: false})
+          })
+          .catch(error => updateStatus({...status, error: error}))
     }
     return () => {
       console.log('unmounting detail component...')
@@ -39,10 +47,15 @@ const FilmDetail = (props) => {
   }, [])  // empty arr here for mount/unmount only
   
   console.log(status)
+//<img src={`${baseURL}${imgSize}${pageData[i].poster_path}`}`/>
+  // get data needed for display
+/*  const pageData = this.state.pageData
+  const baseURL = this.state.pageConfig.images.secure_base_url
+  const imgSize = this.state.pageConfig.images.poster_sizes[2]*/
 
   if (status.error) { 
     return <p>{status.error.message}</p> 
-  } else if (status.loaded) { 
+  } else if (status.loading) { 
     return <p>temp loading msg</p> 
   } else {
     return (
@@ -52,6 +65,7 @@ const FilmDetail = (props) => {
         </NavLink>
         
         <p>Film id is {props.match.params.id}</p>
+      
       </div>
     )
   }
