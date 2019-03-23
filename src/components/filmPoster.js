@@ -21,18 +21,13 @@ const FilmPoster = (props) => {
             null
           : 
             <div className='placeholder-img'></div>
-          
-
         }
         <img
           style={imgLoaded ? {} : {opacity: '0.5'}} 
           src={props.poster}
           onLoad={ () => setImgLoaded(true) }
         />
-        
-       
-        
-        
+
       </div>
       <p>{props.film}</p>
       <p>{month} {year}</p>

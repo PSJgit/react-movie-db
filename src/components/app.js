@@ -88,9 +88,7 @@ export default class App extends React.Component {
         title: elem.title, 
         vote_average: elem.vote_average,
         poster_path: elem.poster_path,
-        backdrop_path: elem.backdrop_path, 
-        release_date: elem.release_date,
-        overview: elem.overview
+        release_date: elem.release_date
       })
     })
     this.setState( (prevState) => ({ 

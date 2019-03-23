@@ -17,7 +17,10 @@ const AppRouter = (props) => {
           
           <Route
             path='/filmDetail:id'
-            render={(props) => <FilmDetail {...props} data={sessionStorage.getItem('pageData')} />}
+            render={(props) => <FilmDetail {...props} 
+              pageData={sessionStorage.getItem('pageData')}
+              pageConfig={sessionStorage.getItem('pageConfig')} 
+            />}
           />
 
           <Route component={Route404} />

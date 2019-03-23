@@ -88,3 +88,18 @@ h1, p, svg {
 	color: $offWhite;
 	fill: $offWhite;
 }
+
+
+
+#backdrop {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	z-index: -1;
+	img {
+		width: 100vw;
+		object-fit: cover;
+		max-height: 60vh;
+	}
+}
