@@ -25,7 +25,7 @@ const FilmPoster = (props) => {
 
         }
         <img
-          style={imgLoaded ? {} : {display: 'none'}} 
+          style={imgLoaded ? {} : {opacity: '0.5'}} 
           src={props.poster}
           onLoad={ () => setImgLoaded(true) }
         />

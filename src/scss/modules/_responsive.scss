@@ -2,21 +2,34 @@
 /* Media queries 
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-@media screen and (max-width: $small) {
-	
-}
 
-@media screen and (max-width: $medium) {
-  
+@media screen and (max-width: $xLarge) {
+	.grid {
+	  grid-template-columns: repeat(6, 1fr);
+	} 
 }
 
 @media screen and (max-width: $large) {
-  
+	.grid {
+	  grid-template-columns: repeat(4, 1fr);
+	} 
 }
 
-@media screen and (max-width: $xLarge) {
-  
+@media screen and (max-width: $medium) {
+/*	.grid {
+	  grid-template-columns: repeat(3, 1fr);
+	}*/
 }
+
+@media screen and (max-width: $small) {
+	.grid {
+	  grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+
+
+
 
 
 /* Print Media queries 

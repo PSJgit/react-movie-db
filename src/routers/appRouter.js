@@ -17,7 +17,7 @@ const AppRouter = (props) => {
           
           <Route
             path='/filmDetail:id'
-            render={(props) => <FilmDetail {...props} data={localStorage.getItem('pageData')} />}
+            render={(props) => <FilmDetail {...props} data={sessionStorage.getItem('pageData')} />}
           />
 
           <Route component={Route404} />
@@ -28,10 +28,3 @@ const AppRouter = (props) => {
 }
 
 export default AppRouter;
-
-
-/* passing props
-<Route
-  path='/dashboard'
-  render={(props) => <Dashboard {...props} isAuthed={true} />}
-/>*/

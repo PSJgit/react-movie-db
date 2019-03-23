@@ -13,8 +13,69 @@ body {
   padding: 0 $sm-padding;
   width: 100%;
   max-width: 1280px;
-  margin: $xl-margin auto;
+  margin: 0 auto;
 }
+
+.grid {
+  margin-top: 10%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 0.5em;
+}
+
+.placeholder-color {
+	min-height: 100%;
+	background: red;
+}
+
+
+.movies-list {
+	position: relative;
+
+	h1 {
+		position: absolute;
+		top: -2em;
+	}
+
+	a {
+		margin-right: $med-margin;
+
+		.film-poster {
+			.default-placeholder-height {
+			  height: 280px;
+			}
+			.image-container {
+				position: relative;
+				width: 100%;
+				
+				.placeholder-img {
+			    position: absolute;
+			    top: 0;
+			    left: 0;
+			    height: 100%;
+			    width: 100%;
+			    background-color: $highlight;
+			    opacity: 0.2;
+				}
+				img {
+					max-width: 100%;
+					transition: opacity 0.5s ease;
+				}
+			}
+
+			
+			p {
+				font-size: 80%;
+				width: 100%;
+			}
+		}
+	}
+}
+
+.film-detail {
+
+}
+
 
 // svg
 
