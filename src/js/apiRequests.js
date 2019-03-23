@@ -21,13 +21,12 @@ const ascDesc = [
 	'desc'
 ]
 
-let page = 1
-
-export const apiConfig = () => {
+export const apiConfig = (updatePage = 1) => {
 	try {
 		//details = `https://api.themoviedb.org/3/movie/${id}?api_key=${appConfig.KEY}&language=en-US`
 		config = `https://api.themoviedb.org/3/configuration?api_key=${appConfig.KEY}`
-		data = `https://api.themoviedb.org/3/discover/movie?api_key=${appConfig.KEY}&language=en-US&sort_by=${sortBy[0]}.${ascDesc[1]}&include_adult=false&include_video=false&page=${page}`
+		//data = `https://api.themoviedb.org/3/discover/movie?api_key=${appConfig.KEY}&language=en-US&sort_by=${sortBy[0]}.${ascDesc[1]}&include_adult=false&include_video=false&page=${updatePage}`
+		data = `https://api.themoviedb.org/3/movie/popular?api_key=${appConfig.KEY}&language=en-US&page=${updatePage}`
 	} catch(err) {
 		console.warn('No Api Key provided', err )
 	}

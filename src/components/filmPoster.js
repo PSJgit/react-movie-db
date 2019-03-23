@@ -1,17 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {monthStrArr} from '../js/utils.js' 
 
 const FilmPoster = (props) => {
+  
+  const [imgLoaded, setImgLoaded] = useState(false)
+
   // format date
   const dateArr = props.fullReleaseDate.split('-')
   const month = monthStrArr[parseInt(dateArr[1])-1]
   const year = dateArr[0]
+
   // format score
   const score = props.score * 10 + '%'
 
   return (
-    <div id={props.id}>
-      <img src={props.poster}/>
+    <div id={props.id} className='film-poster'>
+      <div className={`image-container ${imgLoaded ? null : 'default-placeholder-height'} `}>
+        {
+          imgLoaded ?
+            null
+          : 
+            <div className='placeholder-img'></div>
+          
+
+        }
+        <img
+          style={imgLoaded ? {} : {display: 'none'}} 
+          src={props.poster}
+          onLoad={ () => setImgLoaded(true) }
+        />
+        
+       
+        
+        
+      </div>
       <p>{props.film}</p>
       <p>{month} {year}</p>
       <div id='user-rating'>

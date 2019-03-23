@@ -25,7 +25,9 @@ export default class App extends React.Component {
       pageConfig: [],
       pageData: [],
       loading: true,
-      error: null
+      error: null,
+      apiRequestActive: false,
+      apiRequestCount: 0
     }
   }
 
@@ -35,10 +37,6 @@ export default class App extends React.Component {
       ...state
     })
     sessionStorage.setItem(...state)
-  }
-
-  componentWillUnmount() {
-    this.saveStateToSessionStorage()
   }
 
   loadStateFromSessionStorage() {
@@ -62,47 +60,74 @@ export default class App extends React.Component {
     for (let key in this.state) {
       sessionStorage.setItem(key, JSON.stringify(this.state[key]))
     }
+  }
 
+  handleScroll() {
+    const { error, apiRequestActive } = this.state
+
+    if (error || apiRequestActive) return
+
+    if ( window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight ) { 
+
+      const configObjs = apiConfig(this.state.apiRequestCount + 1)
+
+      this.setState({apiRequestActive: true})
+
+      fetchApiData(configObjs.data).then(data => this.trimData(data))
+      .catch(error => this.setState({ error, isLoading: false }))
+    }
+  }
+  
+  trimData(data) {
+
+    let dataResultsArr = []
+    // trim the data to what we need
+    data.results.map( (elem, index) => {
+      dataResultsArr.push({
+        id: elem.id,
+        title: elem.title, 
+        vote_average: elem.vote_average,
+        poster_path: elem.poster_path,
+        backdrop_path: elem.backdrop_path, 
+        release_date: elem.release_date,
+        overview: elem.overview
+      })
+    })
+    this.setState( (prevState) => ({ 
+      pageData: prevState.pageData.concat(dataResultsArr),
+      loading: false,
+      apiRequestActive: false,
+      apiRequestCount: prevState.apiRequestCount + 1
+    }))
+    this.saveStateToSessionStorage()
+    console.log('saved sessionStorage', sessionStorage)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.saveStateToSessionStorage.bind(this)
+    )
+    window.removeEventListener('scroll', this.handleScroll.bind(this))
+
+    // saves if component has a chance to unmount
+    this.saveStateToSessionStorage()
   }
 
   componentDidMount() {
+
+    window.addEventListener('scroll', this.handleScroll.bind(this))
+    // add event listener to save state to localStorage - when user leaves/refreshes the page
+    window.addEventListener('beforeunload', this.saveStateToSessionStorage.bind(this))
     
-    let dataResultsArr = []
     if (sessionStorage.length === 0) {
-
-      for (let i = 0; i < 4; i++) {
-        // api config and calls
-        const configObjs = apiConfig(i+1)
-        fetchApiData(configObjs.config).then(data => this.setState({ pageConfig: data }))
-        fetchApiData(configObjs.data).then((data) => {
-
-          // trim the data to what we need
-          data.results.map( (elem, index) => {
-            dataResultsArr.push({
-              id: elem.id,
-              title: elem.title, 
-              vote_average: elem.vote_average,
-              poster_path: elem.poster_path,
-              backdrop_path: elem.backdrop_path, 
-              release_date: elem.release_date,
-              overview: elem.overview
-            })
-          })
-          this.setState({ 
-            pageData: dataResultsArr,
-            loading: false 
-          })
-          this.saveStateToSessionStorage()
-          console.log('saved sessionStorage', sessionStorage)
-        })
-        .catch(error => this.setState({ error, isLoading: false }))
-      }
-      
-
+      this.setState({apiRequestActive: true})
+      // api config and calls
+      const configObjs = apiConfig()
+      fetchApiData(configObjs.config).then(data => this.setState({ pageConfig: data }))
+      fetchApiData(configObjs.data).then(data => this.trimData(data))
+      .catch(error => this.setState({ error, isLoading: false }))
     } else {
       this.loadStateFromSessionStorage()
-    }
-    
+    } 
     console.log('----------- component mounted', this.state)
   }
 
