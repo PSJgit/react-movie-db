@@ -62,15 +62,16 @@ const FilmDetail = (props) => {
               <img src={`${baseURL}${posterSize}${state.poster_path}`}
                    onError={(e)=>{e.target.onerror = null; e.target.src=posterError}}
               />
-            </div>  
-          </div>
-
-          <div id='details'>
+            </div>
+                      <div id='details'>
             <h1>{state.title}</h1>
             <p className='sub-details'>{state.release_date.split('-')[0]} • {state.vote_average * 10 + '% User score'}</p>
             <p className='sub-details'>{`${hoursRounded}h ${minutes} min`}</p>
 
+          </div>  
           </div>
+
+
 
           <div id='overview'>
             <h1>Overview</h1>
