@@ -44,7 +44,7 @@ const FilmDetail = (props) => {
   if (state.error) { 
     return <p>{state.error.message}</p> 
   } else if (state.loading) { 
-    return <p>temp loading msg</p> 
+    return <p>LOADING...</p> 
   } else {
     return (
       <div id='film-detail'>

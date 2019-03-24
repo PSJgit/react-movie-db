@@ -2,18 +2,7 @@
 
 ## What is it?
 
-Boilerplate for react projects
-
-## Demo
-
-...
-
-## To do
-
-...
-* ...
-* ...
-* ...
+A small movie DB with search via the TMDB api.
 
 ## Built With
 
@@ -23,6 +12,18 @@ Boilerplate for react projects
 * Babel
 * SCSS
 * Webpack
+* TMDB Api
+
+## API KEY
+
+To run this, you'll need an api key from [The Movie DB](https://www.themoviedb.org/documentation/api) When you have your key, create a config.js file in the root of the project with this in it:
+
+```
+const appConfig = {
+	KEY: '###-YOUR-KEY-HERE-###'
+}
+
+```
 
 ## Commands
 
