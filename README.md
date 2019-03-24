@@ -1,4 +1,4 @@
-# REACT BOILERPLATE
+# React Movie DB 
 
 ## What is it?
 
