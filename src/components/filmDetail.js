@@ -67,8 +67,8 @@ const FilmDetail = (props) => {
 
           <div id='details'>
             <h1>{state.title}</h1>
-            <p className='sub-details'>{state.release_date.split('-')[0]} • {`${hoursRounded}h ${minutes} min`}</p>
-            <p className='sub-details'>{state.vote_average * 10 + '% User score'}</p>
+            <p className='sub-details'>{state.release_date.split('-')[0]} • {state.vote_average * 10 + '% User score'}</p>
+            <p className='sub-details'>{`${hoursRounded}h ${minutes} min`}</p>
 
           </div>
 
