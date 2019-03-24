@@ -41,18 +41,17 @@ body {
 		margin-right: $med-margin;
 
 		.film-poster {
-			.default-placeholder-height {
-			  height: 280px;
-			}
 			.image-container {
 				position: relative;
 				width: 100%;
-				
+				min-width: 100px;
+				max-height: 252px;
+				overflow: hidden;
 				.placeholder-img {
 			    position: absolute;
 			    top: 0;
 			    left: 0;
-			    height: 100%;
+			    height: 99%;
 			    width: 100%;
 			    background-color: $highlight;
 			    opacity: 0.2;
@@ -62,8 +61,6 @@ body {
 					transition: opacity 0.5s ease;
 				}
 			}
-
-			
 			p {
 				font-size: 80%;
 				width: 100%;

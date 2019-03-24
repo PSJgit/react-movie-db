@@ -60,7 +60,7 @@ const FilmDetail = (props) => {
           <p>{state.title}</p>
           <p>{state.release_date.split('-')[0]}</p>
           <p>{state.vote_average * 10 + '% User score'}</p>
-          <p>{`${hoursRounded}h ${minutes} mins`}</p>
+          <p>{`${hoursRounded}h ${minutes} min`}</p>
         </div>
 
         <div id='overview'>

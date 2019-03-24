@@ -5,9 +5,10 @@ import tempData from '../data/tempData.js'
 import fetchApiData, {apiConfig} from '../js/apiRequests.js'
 import GetSVG, { EmailSVG } from './svgs.js'
 
+import SearchBar from './searchBar.js'
 import Section from './section.js'
 import FilmPoster from './filmPoster.js'
-import FilmDetail from '../components/filmDetail.js'
+import FilmDetail from './filmDetail.js'
 
 
 /* MAIN APP
@@ -27,7 +28,8 @@ export default class App extends React.Component {
       loading: true,
       error: null,
       apiRequestActive: false,
-      apiRequestCount: 0
+      apiRequestCount: 0,
+      searchActive: false
     }
   }
 
@@ -78,7 +80,7 @@ export default class App extends React.Component {
     }
   }
   
-  trimData(data) {
+  trimData(data, clear = false) {
 
     let dataResultsArr = []
     // trim the data to what we need
@@ -92,13 +94,14 @@ export default class App extends React.Component {
       })
     })
     this.setState( (prevState) => ({ 
-      pageData: prevState.pageData.concat(dataResultsArr),
+      pageData: clear ? dataResultsArr : prevState.pageData.concat(dataResultsArr),
       loading: false,
       apiRequestActive: false,
-      apiRequestCount: prevState.apiRequestCount + 1
+      apiRequestCount: clear ? 1 : prevState.apiRequestCount + 1
     }))
     this.saveStateToSessionStorage()
     console.log('saved sessionStorage', sessionStorage)
+
   }
 
   componentWillUnmount() {
@@ -133,6 +136,21 @@ export default class App extends React.Component {
     console.log('----------- component updated', this.state)
   }
 
+
+  /* Search component submit event
+  –––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+  handleSearch(query) {
+    if (query.length === 0) {
+      return
+    }
+    this.setState({ isLoading: true, query: query })
+
+    fetchApiData(`https://api.themoviedb.org/3/search/movie?api_key=${appConfig.KEY}&language=en-US&query=${query}&page=1&include_adult=false`)
+      .then(data => this.trimData(data, true))
+      .catch(error => this.setState({ error, isLoading: false, apiRequestCount: 1 }))
+    
+  }
   /* Render
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
@@ -172,8 +190,8 @@ export default class App extends React.Component {
 
     return (
       <Fragment>
-
-        <Section title='Popular Movies' className='movies-list grid'>
+        <SearchBar handleSearch={query => this.handleSearch(query)}/>
+        <Section title={ this.state.query ? `You searched for '${this.state.query}'` : 'Popular Movies' } className='movies-list grid'>
           {filmComponentArr}
         </Section> 
         

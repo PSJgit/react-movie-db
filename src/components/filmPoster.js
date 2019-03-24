@@ -15,7 +15,7 @@ const FilmPoster = (props) => {
 
   return (
     <div id={props.id} className='film-poster'>
-      <div className={`image-container ${imgLoaded ? null : 'default-placeholder-height'} `}>
+      <div className={'image-container '}>
         {
           imgLoaded ?
             null
@@ -23,7 +23,7 @@ const FilmPoster = (props) => {
             <div className='placeholder-img'></div>
         }
         <img
-          style={imgLoaded ? {} : {opacity: '0.5'}} 
+          style={imgLoaded ? {} : {opacity: '0.2'}} 
           src={props.poster}
           onLoad={ () => setImgLoaded(true) }
         />
