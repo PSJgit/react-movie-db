@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import fetchApiData from '../js/apiRequests.js'
-import {monthStrArr} from '../js/utils.js' 
+import { monthStrArr } from '../js/utils.js' 
+import posterError from '../images/poster-error.jpg'
+import backdropError from '../images/backdrop-error.jpg'
+import GetSVG, { Arrow } from './svgs.js'
 
 const FilmDetail = (props) => {
 
@@ -46,27 +49,34 @@ const FilmDetail = (props) => {
     return (
       <div id='film-detail'>
         <NavLink to='/' exact={true}>
-          <button>temp back</button>
+          <GetSVG tag='Arrow' className='arrow'/>
         </NavLink>
         <div id='backdrop'>
-          <img src={`${baseURL}${backdropSize}${state.backdrop_path}`}/>
+          <img src={`${baseURL}${backdropSize}${state.backdrop_path}`}
+               onError={(e)=>{e.target.onerror = null; e.target.src=backdropError}}
+          />
         </div>
-        <div id='poster'>
-          <img src={`${baseURL}${posterSize}${state.poster_path}`}/>
-        </div>  
+        <div className='content-container'>
+          <div className='image-container'>
+            <div id='poster'>
+              <img src={`${baseURL}${posterSize}${state.poster_path}`}
+                   onError={(e)=>{e.target.onerror = null; e.target.src=posterError}}
+              />
+            </div>  
+          </div>
 
-        <p>Film id is {props.match.params.id}</p>
-        <div id='details'>
-          <p>{state.title}</p>
-          <p>{state.release_date.split('-')[0]}</p>
-          <p>{state.vote_average * 10 + '% User score'}</p>
-          <p>{`${hoursRounded}h ${minutes} min`}</p>
-        </div>
+          <div id='details'>
+            <h1>{state.title}</h1>
+            <p className='sub-details'>{state.release_date.split('-')[0]} • {`${hoursRounded}h ${minutes} min`}</p>
+            <p className='sub-details'>{state.vote_average * 10 + '% User score'}</p>
 
-        <div id='overview'>
-          <p>{state.overview}</p>
+          </div>
+
+          <div id='overview'>
+            <h1>Overview</h1>
+            <p>{state.overview}</p>
+          </div>
         </div>
-      
       </div>
     )
   }

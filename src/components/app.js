@@ -1,10 +1,9 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { NavLink } from 'react-router-dom'
 import uuid from 'uuid' // usage = uuid.v4()
-import tempData from '../data/tempData.js'
-import fetchApiData, {apiConfig} from '../js/apiRequests.js'
-import GetSVG, { EmailSVG } from './svgs.js'
 
+import GetSVG, { TmdbGradient, TmdbLines, TmdbLogo } from './svgs.js'
+import fetchApiData, { apiConfig } from '../js/apiRequests.js'
 import SearchBar from './searchBar.js'
 import Section from './section.js'
 import FilmPoster from './filmPoster.js'
@@ -140,16 +139,15 @@ export default class App extends React.Component {
   /* Search component submit event
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-  handleSearch(query) {
-    if (query.length === 0) {
+  handleSearch(input) {
+    if (input.length === 0) {
       return
     }
-    this.setState({ isLoading: true, query: query })
+    this.setState({ isLoading: true, query: input })
 
-    fetchApiData(`https://api.themoviedb.org/3/search/movie?api_key=${appConfig.KEY}&language=en-US&query=${query}&page=1&include_adult=false`)
+    fetchApiData(`https://api.themoviedb.org/3/search/movie?api_key=${appConfig.KEY}&language=en-US&query=${input}&page=1&include_adult=false`)
       .then(data => this.trimData(data, true))
       .catch(error => this.setState({ error, isLoading: false, apiRequestCount: 1 }))
-    
   }
   /* Render
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -190,7 +188,11 @@ export default class App extends React.Component {
 
     return (
       <Fragment>
-        <SearchBar handleSearch={query => this.handleSearch(query)}/>
+        <div id='header'>
+          <GetSVG tag='TmdbLogo' className='logo'/>
+          <GetSVG tag='TmdbLines' className='lines'/>
+        </div>
+        <SearchBar handleSearch={input => this.handleSearch(input)}/>
         <Section title={ this.state.query ? `You searched for '${this.state.query}'` : 'Popular Movies' } className='movies-list grid'>
           {filmComponentArr}
         </Section> 

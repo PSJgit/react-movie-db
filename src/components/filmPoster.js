@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import {monthStrArr} from '../js/utils.js' 
+import { monthStrArr } from '../js/utils.js' 
+import posterError from '../images/poster-error.jpg'
 
 const FilmPoster = (props) => {
   
@@ -10,8 +11,16 @@ const FilmPoster = (props) => {
   const month = monthStrArr[parseInt(dateArr[1])-1]
   const year = dateArr[0]
 
-  // format score
-  const score = props.score * 10 + '%'
+  // format score and color
+  const score = props.score * 10
+  const scoreStyle = {}
+  if (score >= 70) {
+    scoreStyle.background = '#01D277'
+  } else if (score >= 40) {
+    scoreStyle.background = '#4902A3'
+  } else {
+    scoreStyle.background = '#D1225B' 
+  }
 
   return (
     <div id={props.id} className='film-poster'>
@@ -26,13 +35,14 @@ const FilmPoster = (props) => {
           style={imgLoaded ? {} : {opacity: '0.2'}} 
           src={props.poster}
           onLoad={ () => setImgLoaded(true) }
+          onError={(e)=>{e.target.onerror = null; e.target.src=posterError}}
         />
 
       </div>
-      <p>{props.film}</p>
-      <p>{month} {year}</p>
-      <div id='user-rating'>
-        <p>{score}</p>
+      <p className='film-title'>{props.film}</p>
+      <p className='sub'>{month} {year}</p>
+      <div className='user-rating' style={scoreStyle}>
+        <p>{score}%</p>
       </div>
     </div>
   )

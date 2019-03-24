@@ -3,17 +3,17 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 @font-face {
-  font-family: 'open_sansregular';
-  src: url('../fonts/opensans-regular-webfont.woff2') format('woff2'),
-       url('../fonts/opensans-regular-webfont.woff') format('woff');
+  font-family: 'montserrat';
+  src: url('../fonts/montserrat-regular-webfont.woff2') format('woff2'),
+       url('../fonts/montserrat-regular-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-    font-family: 'work_sansblack';
-    src: url('../fonts/worksans-black-webfont.woff2') format('woff2'),
-         url('../fonts/worksans-black-webfont.woff') format('woff');
+    font-family: 'roboto';
+    src: url('../fonts/roboto-regular-webfont.woff2') format('woff2'),
+         url('../fonts/roboto-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -22,15 +22,15 @@
 /* Font sizing, Font family
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-$fontFamily_primary : 'open_sansregular', 'arial';
-$fontFamily_secondary : 'open_sansregular', 'arial';
+$fontFamily_primary : 'montserrat', 'arial';
+$fontFamily_secondary : 'roboto', 'arial';
 $arialFont : 'arial';
 
 $XL_min: 24px;
 $XL_max: 128px;
 
-$h1_min: 22px;
-$h1_max: 48px;
+$h1_min: 18px;
+$h1_max: 42px;
 
 $h2_min: 18px;
 $h2_max: 40px;
@@ -45,13 +45,13 @@ $baseFontSize_max: 20px;    // set on html, body, button
 /* Colors
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-$bodyColor_primary: #323446;    // Dark Purple
+$bodyColor_primary: #081B23;    // Dark Blue
 $bodyColor_secondary: #A9D2D5;  // Pastel Blue
 $bodyColor_tertiary: #A3A5C3;   // Dark blue
 
 $highlight: #01D277;            // Light Green
 
-$fontColor_primary: #303030;    // Off Black
+$fontColor_primary: #E3F4FC;    // v light blue
 $fontColor_secondary: #FDFDFD;  // Off White
 $fontColor_tertiary: #000500;   // Near pure Black
 

@@ -1,5 +1,6 @@
 import React, { useState, Fragment } from 'react'
 import fetchApiData, {apiConfig} from '../js/apiRequests.js'
+import GetSVG, { Magnify } from './svgs.js'
 
 const SearchBar = (props) => {
   	
@@ -10,19 +11,16 @@ const SearchBar = (props) => {
 	 	}
 
   return (
-  	<Fragment>
-    <p>searchBar</p>
-    <input type='text' 
-    			 value={input} 
-    			 onChange={handleInput} 
-    			 onKeyPress={(e) => {
-    			 		if (e.key === 'Enter') {
-    			 			props.handleSearch(input)}
-    			 		}
-    			 } 
-    			 placeholder='Search'></input>
-    <button id='submit-icon' onClick={() => props.handleSearch(input)}>sub</button>
-  	</Fragment>
+  	<div id='input-container'>
+	    <input type='text' 
+	    			 value={input} 
+	    			 onChange={handleInput} 
+	    			 onKeyPress={(e) => { if (e.key === 'Enter') { props.handleSearch(input)} } } 
+	    			 placeholder='Search'></input>
+	    <button id='submit-icon' onClick={() => props.handleSearch(input)}>
+	    		<GetSVG tag='Magnify'/>
+	    </button>
+  	</div>
   )
 }
 

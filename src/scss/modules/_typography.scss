@@ -12,8 +12,7 @@ html, body, button {
 
 h1, h2, h3, h4, h5, h6, legend, .heading {
   font-family: $fontFamily_secondary;
-  color: $offWhite;
-  text-transform: uppercase;
+  color: $fontColor_primary;
   font-weight: bold;
   line-height: 1;
   margin: 0.5em 0;
@@ -24,7 +23,7 @@ h1 {
 }
 
 p, label, a {
-  color: $offWhite;
+  color: $fontColor_primary;
   font-family: $fontFamily_secondary;
   line-height: 1.4;
 }

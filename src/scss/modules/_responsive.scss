@@ -6,6 +6,9 @@
 @media screen and (max-width: $xLarge) {
 	.grid {
 	  grid-template-columns: repeat(6, 1fr);
+	}
+	#film-detail {
+		padding-top: 38%;
 	} 
 }
 
@@ -13,18 +16,35 @@
 	.grid {
 	  grid-template-columns: repeat(4, 1fr);
 	} 
+	#film-detail {
+		padding-top: 38%;
+	} 
+	#details {
+		margin-top: 5%;
+	}
 }
 
 @media screen and (max-width: $medium) {
-/*	.grid {
-	  grid-template-columns: repeat(3, 1fr);
-	}*/
+	#film-detail {
+		padding-top: 44%;
+	} 
+	#details {
+		margin-top: 14%;
+	}
+
 }
 
 @media screen and (max-width: $small) {
 	.grid {
 	  grid-template-columns: repeat(2, 1fr);
 	}
+	#film-detail {
+		padding-top: 44%;
+	} 
+	#details {
+		margin-top: 12%;
+	}
+
 }
 
 
