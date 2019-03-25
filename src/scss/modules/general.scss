@@ -136,8 +136,7 @@ body {
 		}
 	}
 	.image-container, #details {
-		float: left;
-		    margin-bottom: 5%;
+		margin-bottom: 5%;
 	}
 	#poster {
 
@@ -155,9 +154,10 @@ body {
 		}
 	}
 	#details {
-				margin-top: 20%;
+				margin-top: 0%;
 		h1 {
 			font-size: 150%;
+			padding-top: 4%;
 		}
 		.sub-details {
 			font-size: 70%;
